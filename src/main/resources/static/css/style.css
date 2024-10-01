@@ -1,0 +1,230 @@
+/* Global Styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ffffff; /* White background for minimalist style */
+  color: #343a40; /* Dark gray for text */
+}
+
+/* Layout and Containers */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  background-color: #333333; /* Dark but subtle header */
+  padding: 10px 0;
+  color: #ffffff;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo a {
+  font-size: 20px; /* Smaller logo for minimalism */
+  font-weight: 700;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.user-auth a {
+  color: #ffffff;
+  margin-left: 15px;
+  padding: 5px 15px;
+  background-color: #ff6f00;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.user-auth a:hover {
+  background-color: #ff8c1a;
+}
+
+/* Hero Section */
+.hero {
+  background-color: #f8f9fa; /* Light background for hero */
+  color: #343a40;
+  padding: 30px 0;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 28px; /* Smaller, clean headline */
+}
+
+.search-bar {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar input {
+  padding: 10px;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #ced4da;
+  width: 300px;
+}
+
+.search-bar .btn-search {
+  padding: 10px 20px;
+  background-color: #ff6f00;
+  color: #ffffff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.search-bar .btn-search:hover {
+  background-color: #ff8c1a;
+}
+
+/* Block (Card) Style */
+.block {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center; /* Align logo and text */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.block img {
+  width: 50px; /* Small logo size */
+  height: 50px;
+  object-fit: contain;
+  margin-right: 15px; /* Space between logo and text */
+}
+
+.block .company-info {
+  flex-grow: 1;
+}
+
+.block .company-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.block .company-industry {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.copy-link-btn {
+  background-color: #ff6f00;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.copy-link-btn:hover {
+  background-color: #ff8c1a;
+}
+
+.open-link-btn {
+  background-color: #ff6f00;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.open-link-btn:hover {
+  background-color: #ff8c1a;
+}
+
+/* Footer */
+.footer {
+  background-color: #333333;
+  color: #ffffff;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Forms and Buttons */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+
+.notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.notification.show {
+  opacity: 1;
+}
+
+.notification.error {
+  background-color: #f44336;
+}
+
+.notification.info {
+  background-color: #2196F3;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.btn-icon img {
+  width: 24px;
+  height: 24px;
+}
+
+/* Tooltip styles */
+.btn-icon .tooltip {
+  display: none;
+  position: absolute;
+  bottom: 100%; /* Show tooltip above the button */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.btn-icon:hover .tooltip {
+  display: block;
+}

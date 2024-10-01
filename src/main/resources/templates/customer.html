@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Menu</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">
+          <img src="/icons/mainlogo.svg" alt="Website Logo" style="width: 150px; height: auto;">
+        </a>
+      </div>
+      <div class="user-auth">
+        <a th:href="@{/}" class="btn-profile">Home</a>
+        <a th:href="@{/logout}" class="btn-logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <form id="logout-form" th:action="@{/logout}" method="post" style="display: none;">
+          <input type="hidden" name="_csrf" th:value="${_csrf.token}">
+        </form>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!--<section class="customer-info-section">-->
+<!--  <div class="container">-->
+    <!-- Customer Info -->
+<!--    <h2>Customer Information</h2>-->
+<!--    <form method="post" th:action="@{/customer/updateCustomerInfo}" class="customer-info-form">-->
+<!--      <div class="form-group">-->
+<!--        <label for="email">Email:</label>-->
+<!--        <input type="email" id="email" class="form-control" name="email" th:value="${userDetails.getEmail()}" required>-->
+<!--      </div>-->
+<!--      <div class="form-group">-->
+<!--        <label for="password">Password:</label>-->
+<!--        <input type="password" id="password" class="form-control" name="password" th:value="${userDetails.getPassword()}" required>-->
+<!--      </div>-->
+<!--      <button type="submit" class="btn-submit">Update</button>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</section>-->
+
+<section class="links-list">
+  <div class="container">
+    <h2>Your Links</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Company</th>
+        <th>Category</th>
+        <th>URL</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="link : ${links}">
+        <form th:action="@{/customer/process/{id}(id=${link.getId()})}" th:object="${link}" method="post">
+          <td><input type="text" class="form-control" name="companyName" th:value="${link.getCompanyName()}"></td>
+<!--          <td><input type="text" class="form-control" name="industry" th:value="${link.getCategory()}"></td>-->
+
+          <td>
+            <select class="form-control" name="category" required>
+              <option value="" disabled>Select a category</option>
+              <th:block th:each="category : ${categories}">
+                <option th:value="${category.getCategory()}" th:text="${{category.getCategory()}}"
+                        th:selected="${link.getCategory()} == ${{category.getCategory()}}">
+                </option>
+              </th:block>
+            </select>
+          </td>
+
+          <td><input type="text" class="form-control" name="url" th:value="${link.getUrl()}"></td>
+          <td>
+            <button type="submit" class="btn-update" name="action" value="update">Update</button>
+            <button type="submit" class="btn-delete" name="action" value="delete">Delete</button>
+          </td>
+        </form>
+      </tr>
+      </tbody>
+    </table>
+
+    <h2>Add New Link</h2>
+    <form method="post" th:action="@{/addLink}" class="add-link-form">
+      <div class="form-group">
+        <label for="newCompanyName">Company Name:</label>
+        <input type="text" id="newCompanyName" class="form-control" name="companyName" required>
+      </div>
+
+<!--      <div class="form-group">-->
+<!--        <label for="newCategory">Category:</label>-->
+<!--        <input type="text" id="newCategory" class="form-control" name="category" required>-->
+<!--      </div>-->
+
+      <div class="form-group">
+        <label for="newCategory">Category:</label>
+        <select id="newCategory" class="form-control" name="category" required>
+          <option value="" disabled selected>Select a category</option>
+          <th:block th:each="category : ${categories}">
+            <option th:value="${category.category}" th:text="${category.category}"></option>
+          </th:block>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="newLinkValue">URL:</label>
+        <input type="text" id="newLinkValue" class="form-control" name="url" required>
+      </div>
+      <button type="submit" class="btn-submit">Add Link</button>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2024 BrandName. All rights reserved.</p>
+  </div>
+</footer>
+</body>
+</html>
