@@ -11,6 +11,8 @@ import com.pp.referrallink.service.LinkService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 public class LinkController {
@@ -43,34 +46,52 @@ public class LinkController {
   }
 
   //companyName industry linkValue   /addLink
-  @PostMapping(path = "/addLink", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
-  public String createLink(@Valid @RequestParam String companyName, @Valid @RequestParam String category, @Valid @RequestParam String url, HttpServletRequest request ) {
-
-    Company company = companyRepository.findByCompanyName(companyName);
-
-    if (linkService.checkIfLinkIsUnique(url)) {
-      if (company == null) {
-        company = new Company();
-        company.setName(companyName.trim().toLowerCase());
-        company.setCategory(category);
-        company.setLogo(companyService.getCompanyIcon(companyName, category));
-        companyRepository.save(company);
-      }
-
-      Link link = new Link();
-      link.setCompanyName(companyName);
-      link.setCategory(category);
-      link.setUrl(url);
-      link.setNumberOfClicks(0);
-      link.setCustomer(customerServiceImpl.findByEmail(getCurrentUserName()).orElse(null));
-      link.setCompany(company);
-      linkService.createLink(link);
-
-    } else {
-      System.out.println("Link already exists");
-    }
-    return "redirect:/customer";
-  }
+//  @PostMapping(path = "/addLink", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+//  public String createLink(@Valid @RequestParam String companyName, @Valid @RequestParam String category, @Valid @RequestParam String url, HttpServletRequest request ) {
+//
+//    Logger logger = LoggerFactory.getLogger(this.getClass());
+//
+//    try {
+//    Company company = companyRepository.findByCompanyName(companyName);
+//
+//    logger.info("Received data - CompanyName: {}, Category: {}, URL: {}", companyName, category,
+//        url);
+//
+//    if (linkService.checkIfLinkIsUnique(url)) {
+//      if (company == null) {
+//        company = new Company();
+//        company.setName(companyName.trim().toLowerCase());
+//        company.setCategory(category);
+//        company.setLogo(companyService.getCompanyIcon(companyName, category));
+//        companyRepository.save(company);
+//      }
+//
+//      Link link = new Link();
+//      link.setCompanyName(companyName);
+//      link.setCategory(category);
+//      link.setUrl(url);
+//      link.setNumberOfClicks(0);
+//      link.setCustomer(customerServiceImpl.findByEmail(getCurrentUserName()).orElse(null));
+//      link.setCompany(company);
+//
+//      logger.info("Creating link for company: {}, URL: {}", companyName, url);
+//
+//      linkService.createLink(link);
+//
+//    } else {
+//      logger.warn("Link already exists for URL: {}", url);
+//    }
+//    if (logger.isInfoEnabled()) {
+//      logger.info("AddLink request completed");
+//    }
+//  }
+//    catch (Exception e) {
+//      logger.error("Error occurred while creating link: {}", e.getMessage(), e);
+//      throw e;
+//    }
+//
+//    return "redirect:/customer";
+//  }
 
 //  @GetMapping
 //  public List<Link> getAllLinks() {

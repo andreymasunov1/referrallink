@@ -6,6 +6,7 @@
   <title>Referral Links</title>
   <link rel="stylesheet" href="/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@8.1.0/dist/css/shepherd.css" />
 </head>
 <body>
 <header class="header">
@@ -45,22 +46,24 @@
 
 <section class="links-list">
   <div class="container" id="blocks-container">
-    <!-- Referral links -->
+    <!-- Ad Block as the first item -->
+    <a href="https://digitalcareerinstitute.org/" target="_blank">
+      <div class="block ad-block">
+        <img src="/icons/ads.png" alt="Ad Image" style="width:100%; height:auto;">
+      </div>
+    </a>
+
+    <!-- Referral links loop -->
     <div th:each="company : ${companies}" class="block referral-block">
-<!--      <img th:src="@{'/icons/' + ${company.getLogo()}}" alt="Company Logo">-->
       <img th:src="${company.getLogo()}" alt="Company Logo">
       <div class="company-info">
         <p class="company-name" th:text="${company.getName()}">Company Name</p>
         <p class="company-industry" th:text="${company.getCategory()}">Category Name</p>
       </div>
-<!--      <button class="copy-link-btn" th:data-company-name="${company.getName()}">Copy Link</button>-->
-<!--      <button class="open-link-btn" th:data-company-name="${company.getName()}">Open Link in New Tab</button>-->
-
       <button class="btn-icon copy-link-btn" th:data-company-name="${company.getName()}">
         <img src="/icons/copy.png" alt="Copy Link">
         <span class="tooltip">Copy Link</span>
       </button>
-
       <button class="btn-icon open-link-btn" th:data-company-name="${company.getName()}">
         <img src="/icons/newtab.png" alt="Open in New Tab">
         <span class="tooltip">Open link in New Tab</span>
@@ -71,39 +74,84 @@
 
 <footer class="footer">
   <div class="container">
-    <p>&copy; 2024 BrandName. All rights reserved.</p>
+    <p>&copy; 2021 SHAROLINK. All rights reserved. | <a th:href="@{/contact}" class="white-link">Contact Us</a></p>
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/shepherd.js@8.1.0/dist/js/shepherd.min.js"></script>
 <script>
-    document.getElementById('searchForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      let query = document.getElementById('search-bar').value;
-      window.location.href = '/search?query=' + encodeURIComponent(query);
-    });
+  document.getElementById('searchForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    let query = document.getElementById('search-bar').value;
+    window.location.href = '/search?query=' + encodeURIComponent(query);
+  });
 
-    document.querySelectorAll('.copy-link-btn').forEach(button => {
-      button.addEventListener('click', function () {
-        let companyName = this.getAttribute('data-company-name');
-        fetch('/getRandomLink/' + companyName)
-        .then(response => response.text())
-        .then(link => {
-          navigator.clipboard.writeText(link);
-          alert("Link copied to clipboard: " + link);
-        });
+  document.querySelectorAll('.copy-link-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      let companyName = this.getAttribute('data-company-name');
+      fetch('/getRandomLink/' + companyName)
+      .then(response => response.text())
+      .then(link => {
+        navigator.clipboard.writeText(link);
+        alert("Link copied to clipboard!");
       });
     });
+  });
 
-    document.querySelectorAll('.open-link-btn').forEach(button => {
-      button.addEventListener('click', function () {
-        let companyName = this.getAttribute('data-company-name');
-        fetch('/getRandomLink/' + companyName)
-        .then(response => response.text())
-        .then(link => {
-          window.open(link, '_blank'); // Open the link in a new tab
-        });
+  document.querySelectorAll('.open-link-btn').forEach(button => {
+    button.addEventListener('click', function () {
+      let companyName = this.getAttribute('data-company-name');
+      fetch('/getRandomLink/' + companyName)
+      .then(response => response.text())
+      .then(link => {
+        window.open(link, '_blank');
       });
     });
+  });
+
+  // Shepherd.js Tour
+  const tour = new Shepherd.Tour({
+    defaultStepOptions: {
+      cancelIcon: { enabled: true },
+      classes: 'shepherd-theme-arrows',
+      scrollTo: { behavior: 'smooth', block: 'center' },
+    },
+    useModalOverlay: true,
+  });
+
+  tour.addStep({
+    text: 'Welcome to SHAROLINK! Many companies offer discounts or even cash rewards for new registrations. Check to see if there’s a referral link for the service you’re interested in. Let’s explore how to find it!',
+    buttons: [{ text: 'Next', action: tour.next }],
+  });
+
+  tour.addStep({
+    text: 'This is the search bar. You can search for companies by name or category — for example, try "deals," "banks," or "BVG."',
+    attachTo: { element: '#search-bar', on: 'bottom' },
+    buttons: [{ text: 'Next', action: tour.next }],
+  });
+
+  tour.addStep({
+    text: 'These are the referral links. Click the copy icon to copy a link or the tab icon to open it in a new tab.',
+    attachTo: { element: '.referral-block', on: 'bottom' },
+    buttons: [{ text: 'Next', action: tour.next }],
+  });
+
+  tour.addStep({
+    text: 'Do you have referral links to share? Use these buttons to log in or register an account to add and share your links.',
+    attachTo: { element: '.user-auth', on: 'bottom' },
+    buttons: [
+      { text: 'Back', action: tour.back },
+      { text: 'Finish', action: tour.complete },
+    ],
+  });
+
+  // Start tour on page load
+  window.addEventListener('load', function() {
+    if (!localStorage.getItem('tourShown')) {
+      tour.start();
+      localStorage.setItem('tourShown', 'true'); // Set flag in localStorage
+    }
+  });
 </script>
 </body>
 </html>

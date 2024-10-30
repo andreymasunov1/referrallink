@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Custom styles for the contact form size */
+    .contact-section {
+      padding: 50px 0;
+      text-align: center;
+    }
+
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-form h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .form-group textarea {
+      height: 150px; /* Increased height for message box */
+      resize: none;
+    }
+
+    .btn-submit {
+      background-color: #0056b3;
+      color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn-submit:hover {
+      background-color: #003d82;
+    }
+
+    .success-message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">
+          <img src="/icons/mainlogo.svg" alt="Website Logo" style="width: 150px; height: auto;">
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<section class="contact-section">
+  <div class="container">
+    <h1>Contact Us</h1>
+    <p>Contact us to report a problem, ask for help, or provide feedback.</p>
+    <form th:action="@{/contact/submit}" method="post" class="contact-form">
+      <div class="form-group">
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" required th:value="*{email}">
+      </div>
+      <div class="form-group">
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" rows="5" required th:value="*{message}"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">Send Message</button>
+    </form>
+    <div th:if="${successMessage}" class="success-message">
+      <p th:text="${successMessage}"></p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2021 SHAROLINK. All rights reserved. | <a th:href="@{/contact}" class="white-link">Contact Us</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

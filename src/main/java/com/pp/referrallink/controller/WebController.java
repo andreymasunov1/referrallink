@@ -3,11 +3,14 @@ package com.pp.referrallink.controller;
 import static com.pp.referrallink.controller.LinkController.getCurrentUserName;
 
 import com.pp.referrallink.entity.Company;
+import com.pp.referrallink.entity.Customer;
 import com.pp.referrallink.service.CompanyService;
 import com.pp.referrallink.service.CustomerServiceImpl;
 import com.pp.referrallink.service.LinkService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ public class WebController {
   private final LinkService linkService;
   private final CompanyService companyService;
   private final CustomerServiceImpl customerServiceImpl;
+  Logger logger = LoggerFactory.getLogger(this.getClass());
 
   public WebController(@Autowired LinkService linkService, @Autowired CompanyService companyService,
       @Autowired CustomerServiceImpl customerServiceImpl) {
@@ -32,6 +36,7 @@ public class WebController {
 
   @GetMapping("/")
   public String home(Model model, HttpServletRequest request) {
+    logger.info("Loaded home page");
     model.addAttribute("companies", companyService.getInitialCompanies());
     model.addAttribute("remoteUser", customerServiceImpl.findByEmail(getCurrentUserName()).orElse(null));
     return "index";
@@ -39,11 +44,19 @@ public class WebController {
 
   @GetMapping("/search")
   public String search(@RequestParam("query") String query, Model model, HttpServletRequest request) {
+    logger.info("Received data - query: {}", query);
+
     if (!query.trim().isEmpty()) {
+      logger.info("Inside if");
       List<Company> results = companyService.getCompanyBySearchTerm(query.toLowerCase().trim());
+      logger.info("results size: {}", results.size());
+      logger.info("results list: {}", results);
       model.addAttribute("companies", results);
-      model.addAttribute("remoteUser", customerServiceImpl.findByEmail(getCurrentUserName()).orElse(null));
-      return "/index";
+      Customer remoteUser = customerServiceImpl.findByEmail(
+          getCurrentUserName()).orElse(null);
+      model.addAttribute("remoteUser", remoteUser);
+      logger.info("Added attribute remoteUser {}", remoteUser);
+      return "index";
     } else {
       return "redirect:/";
     }

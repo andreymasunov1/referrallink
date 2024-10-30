@@ -53,6 +53,8 @@ public class AppSecurityConfig {
     http.authorizeHttpRequests(auth -> auth.requestMatchers("/",
                 "/login",
                 "/register",
+                "/contact/submit",
+                "/contact",
                 "/search**",
                 "/index",
                 "/oauth2/**",

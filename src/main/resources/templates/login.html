@@ -6,6 +6,89 @@
   <title>Login</title>
   <link rel="stylesheet" href="/css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Custom styles for the login form */
+    .login-section {
+      padding: 50px 0;
+      text-align: center;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 18px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .btn-submit {
+      background-color: #0056b3;
+      color: white;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover {
+      background-color: #003d82;
+    }
+
+    .login-container p {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .login-container img {
+      width: 100%;
+      max-width: 200px;
+      margin-top: 20px;
+    }
+
+    .notification {
+      display: none;
+      color: green;
+      text-align: center;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .notification.show {
+      display: block;
+    }
+  </style>
 </head>
 <body>
 <header class="header">
@@ -31,19 +114,15 @@
       <form th:action="@{/login}" method="post" class="login-form">
         <div class="form-group">
           <label for="username">Username:</label>
-          <input type="text" id="username" class="form-control" name="username" required />
+          <input type="text" id="username" name="username" required />
         </div>
         <div class="form-group">
           <label for="password">Password:</label>
-          <input type="password" id="password" class="form-control" name="password" required />
+          <input type="password" id="password" name="password" required />
         </div>
-        <div>
-          <button type="submit" class="btn-submit">Login</button>
-        </div>
+        <button type="submit" class="btn-submit">Login</button>
       </form>
       <p>Don't have an account? <a th:href="@{/register}">Register here</a></p>
-<!--      <p><a th:href="@{/}">Main page</a></p>-->
-<!--      <a th:href="@{/oauth2/authorization/google}">Sign in Google</a>-->
       <a th:href="@{/oauth2/authorization/google}">
         <img src="https://i.imgur.com/IjVIMxf.png" alt="Sign in with Google" />
       </a>
@@ -60,14 +139,12 @@
   function showNotification() {
     const notification = document.getElementById("notification");
     if (notification) {
-
       notification.classList.add("show");
       // Automatically hide the notification after 3 seconds
       setTimeout(function () {
         notification.classList.remove("show");
       }, 3000);
     }
-
   }
   // Show notification on page load if it exists
   window.onload = showNotification;
@@ -75,7 +152,7 @@
 
 <footer class="footer">
   <div class="container">
-    <p>&copy; 2024 BrandName. All rights reserved.</p>
+    <p>&copy; 2021 SHAROLINK. All rights reserved. | <a th:href="@{/contact}" class="white-link">Contact Us</a></p>
   </div>
 </footer>
 
